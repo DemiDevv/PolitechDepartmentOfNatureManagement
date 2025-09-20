@@ -12,6 +12,7 @@ struct PolitechDepartmentOfNatureManagementApp: App {
     var body: some Scene {
         WindowGroup {
             PlantView()
+                .appBackground()
         }
     }
 }

@@ -31,11 +31,16 @@ public struct GhostButtonStyle: ButtonStyle {
             .padding(.horizontal, 16)
             .frame(maxWidth: .infinity)
             .background(
-                RoundedRectangle(cornerRadius: 12, style: .continuous)
-                    .strokeBorder(Color("purpleNature"), lineWidth: 1)
+                ZStack {
+                    Color.white // ← теперь фон белый
+                    RoundedRectangle(cornerRadius: 12, style: .continuous)
+                        .strokeBorder(Color("purpleNature"), lineWidth: 1)
+                }
             )
-            .foregroundStyle(Color("purpleNature"))
+            .foregroundStyle(Color("purpleNature")) // текст и иконка фиолетовые
+            .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
             .opacity(configuration.isPressed ? 0.85 : 1)
     }
 }
+
 

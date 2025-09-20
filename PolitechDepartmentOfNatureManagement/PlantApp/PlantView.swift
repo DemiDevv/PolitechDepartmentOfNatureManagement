@@ -64,26 +64,6 @@ struct PlantView: View {
 }
 
 #Preview {
-    let vm = PlantViewModel()
-    vm.state = .success
-    vm.result = PlantAnalysisResponse(
-        status: "Здоровое",
-        description: "Листья ярко-зелёные, признаков болезни нет."
-    )
-
-    return PlantView()
-        .environmentObject(vm)
-}
-
-
-#Preview {
-    let vm = PlantViewModel()
-    vm.state = .success
-    vm.result = PlantAnalysisResponse(
-        status: "Здоровое",
-        description: "Листья ярко-зелёные, признаков болезни нет."
-    )
-
-    return PlantView()
-        .environmentObject(vm)
+    PlantView()
+        .appBackground()
 }
