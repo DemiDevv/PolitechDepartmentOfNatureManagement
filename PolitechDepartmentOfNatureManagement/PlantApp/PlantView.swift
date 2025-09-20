@@ -6,11 +6,9 @@
 //
 
 import SwiftUI
-import PhotosUI
 
 struct PlantView: View {
     @StateObject private var viewModel = PlantViewModel()
-    @State private var selectedItem: PhotosPickerItem?
     @State private var selectedImage: UIImage?
 
     var body: some View {
@@ -27,6 +25,7 @@ struct PlantView: View {
                     .cornerRadius(12)
             }
 
+            // Состояние анализа
             switch viewModel.state {
             case .default:
                 Text("Выберите фото растения для анализа")
@@ -48,25 +47,23 @@ struct PlantView: View {
                     .foregroundColor(.red)
             }
 
-            PhotosPicker("Выбрать фото", selection: $selectedItem, matching: .images)
-                .buttonStyle(.borderedProminent)
-                .padding(.top, 20)
-        }
-        .padding()
-        .onChange(of: selectedItem) { newItem in
-            Task {
-                if let data = try? await newItem?.loadTransferable(type: Data.self),
-                   let uiImage = UIImage(data: data) {
-                    selectedImage = uiImage
-                    await viewModel.analyze(image: uiImage)
+            VStack(spacing: 12) {
+                CameraButton { img in
+                    selectedImage = img
+                    Task { await viewModel.analyze(image: img) }
+                }
+                GalleryPickerButton { img in
+                    selectedImage = img
+                    Task { await viewModel.analyze(image: img) }
                 }
             }
+            .padding(.top, 8)
         }
+        .padding()
     }
 }
 
 #Preview {
-    // Мокаем ViewModel с тестовыми данными
     let vm = PlantViewModel()
     vm.state = .success
     vm.result = PlantAnalysisResponse(
@@ -75,5 +72,18 @@ struct PlantView: View {
     )
 
     return PlantView()
-        .environmentObject(vm) // если захочешь использовать через env
+        .environmentObject(vm)
+}
+
+
+#Preview {
+    let vm = PlantViewModel()
+    vm.state = .success
+    vm.result = PlantAnalysisResponse(
+        status: "Здоровое",
+        description: "Листья ярко-зелёные, признаков болезни нет."
+    )
+
+    return PlantView()
+        .environmentObject(vm)
 }
