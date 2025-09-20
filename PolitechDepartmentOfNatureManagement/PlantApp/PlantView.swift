@@ -13,9 +13,10 @@ struct PlantView: View {
 
     var body: some View {
         VStack(spacing: 20) {
-            Text("Определение состояния растения")
+            Text("")
                 .font(.title2)
                 .bold()
+                .foregroundColor(.white)
 
             if let selectedImage {
                 Image(uiImage: selectedImage)
@@ -29,7 +30,9 @@ struct PlantView: View {
             switch viewModel.state {
             case .default:
                 Text("Выберите фото растения для анализа")
-                    .foregroundColor(.gray)
+                    .font(.title3)
+                    .bold()
+                    .foregroundColor(.white)
             case .loading:
                 ProgressView("Анализ...")
             case .success:
