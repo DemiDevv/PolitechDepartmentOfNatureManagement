@@ -8,6 +8,6 @@
 import Foundation
 
 enum RequestConstants {
-    static let baseURL = ""
-    static let token = ""
+    static let baseURL = "http://localhost:8000"
 }
+

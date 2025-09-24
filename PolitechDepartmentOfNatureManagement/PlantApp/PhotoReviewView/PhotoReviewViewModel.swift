@@ -41,6 +41,8 @@ final class PhotoReviewViewModel: ObservableObject {
             } catch {
                 self.state = .failure
                 self.errorMessage = error.localizedDescription
+                print("❌ Ошибка анализа:", error)
+                dump(error)
             }
         }
     }

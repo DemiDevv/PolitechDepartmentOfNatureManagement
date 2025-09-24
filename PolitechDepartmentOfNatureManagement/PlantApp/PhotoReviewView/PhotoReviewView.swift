@@ -11,7 +11,7 @@ struct PhotoReviewView: View {
     public let imageData: Data
     public var onFinished: (PlantAnalysisResponse) -> Void
 
-    @State private var isLoading = false
+    @StateObject private var viewModel = PhotoReviewViewModel()
 
     private var image: UIImage {
         UIImage(data: imageData) ?? UIImage()
@@ -37,7 +37,7 @@ struct PhotoReviewView: View {
                     .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
 
                 Button {
-                    simulateAnalysisAndOpenResults()
+                    viewModel.analyze(image: image)
                 } label: {
                     HStack(spacing: 10) {
                         Image(systemName: "paperplane.fill").imageScale(.large)
@@ -46,12 +46,12 @@ struct PhotoReviewView: View {
                     .frame(maxWidth: .infinity)
                 }
                 .buttonStyle(PrimaryActionButtonStyle())
-                .disabled(isLoading)
+                .disabled(viewModel.state == .loading)
                 .padding(.top, 8)
             }
             .padding(20)
 
-            if isLoading {
+            if viewModel.state == .loading {
                 Color.black.opacity(0.25).ignoresSafeArea()
                 ProgressView("Анализ…")
                     .padding(16)
@@ -59,21 +59,12 @@ struct PhotoReviewView: View {
                     .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
             }
         }
-        .navigationBarTitleDisplayMode(.inline)
-    }
-
-    private func simulateAnalysisAndOpenResults() {
-        isLoading = true
-        Task { @MainActor in
-            try? await Task.sleep(nanoseconds: 800_000_000)
-            isLoading = false
-
-            let mock = PlantAnalysisResponse(
-                status: "Здоровое",
-                description: "Листья ярко-зелёные, признаков болезни не выявлено."
-            )
-            onFinished(mock)
+        .onChange(of: viewModel.state) { newState in
+            if newState == .success, let result = viewModel.result {
+                onFinished(result)
+            }
         }
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
 
