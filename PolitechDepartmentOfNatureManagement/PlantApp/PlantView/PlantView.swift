@@ -13,11 +13,20 @@ struct PlantView: View {
     var body: some View {
         NavigationStack(path: $path) {
             ZStack {
-                AppTheme.bg.ignoresSafeArea()
+                LinearGradient(
+                    gradient: Gradient(stops: [
+                        .init(color: Color("violetNature"), location: 0.0),
+                        .init(color: Color("violetNature"), location: 0.2), // держим фиолетовый до 70%
+                        .init(color: Color("purpleNature"), location: 1.0)  // розовый только в конце
+                    ]),
+                    startPoint: .bottomTrailing,
+                    endPoint: .topLeading
+                )
+                .ignoresSafeArea()
 
                 VStack(spacing: 20) {
-                    Text("") // отступ по макету
-                        .font(.title2).bold()
+                    Text("Анализ растения")
+                        .font(.title).bold()
                         .foregroundColor(.white)
 
                     Text("Выберите фото растения для анализа")
