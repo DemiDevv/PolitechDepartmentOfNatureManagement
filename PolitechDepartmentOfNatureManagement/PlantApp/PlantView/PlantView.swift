@@ -54,7 +54,7 @@ struct PlantView: View {
                 case .review(let imageData):
                     PhotoReviewView(imageData: imageData) { response in
                         // по завершении анализа — пушим экран результатов
-                        let summary = ResultSummary(status: response.status,
+                        let summary = ResultSummary(treeSpecies: response.treeSpecies,
                                                     description: response.description)
                         path.append(PlantRoute.results(summary: summary))
                     }

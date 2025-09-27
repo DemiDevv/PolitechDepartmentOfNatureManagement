@@ -8,7 +8,7 @@
 import Foundation
 
 struct PlantAnalysisResponse: Hashable {
-    let status: String
+    let treeSpecies: String
     let description: String
 }
 
@@ -17,7 +17,7 @@ extension AnalyzeTreeResponseDTO {
         // Берём первую запись из results (если их несколько)
         if let first = results.first {
             return PlantAnalysisResponse(
-                status: first.characteristics.species,
+                treeSpecies: first.characteristics.species,
                 description: """
                 Гнилость ствола: \(first.characteristics.trunk_rot)
                 Дупло: \(first.characteristics.hollow)
@@ -31,7 +31,7 @@ extension AnalyzeTreeResponseDTO {
             )
         } else {
             return PlantAnalysisResponse(
-                status: "Неизвестно",
+                treeSpecies: "Неизвестно",
                 description: "Нет данных анализа"
             )
         }

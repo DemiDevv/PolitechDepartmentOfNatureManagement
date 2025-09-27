@@ -13,6 +13,6 @@ enum PlantRoute: Hashable {
 }
 
 struct ResultSummary: Hashable {
-    let status: String
+    let treeSpecies: String
     let description: String
 }

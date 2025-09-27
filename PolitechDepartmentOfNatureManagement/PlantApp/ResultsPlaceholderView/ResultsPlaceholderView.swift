@@ -20,10 +20,10 @@ struct ResultsPlaceholderView: View {
 
                 VStack(alignment: .leading, spacing: 8) {
                     HStack {
-                        Text("Статус:")
+                        Text("Тип дерева:")
                             .font(.headline).foregroundStyle(.white)
                         Spacer()
-                        Text(summary.status)
+                        Text(summary.treeSpecies)
                             .font(.headline).foregroundStyle(.white)
                     }
                     Divider().background(.white.opacity(0.3))
@@ -46,7 +46,7 @@ struct ResultsPlaceholderView: View {
 #Preview {
     NavigationStack {
         ResultsPlaceholderView(
-            summary: ResultSummary(status: "Здоровое", description: "Листья ярко-зелёные, признаков болезни нет.")
+            summary: ResultSummary(treeSpecies: "Дуб", description: "Листья ярко-зелёные, признаков болезни нет.")
         )
     }
     .appBackground()
