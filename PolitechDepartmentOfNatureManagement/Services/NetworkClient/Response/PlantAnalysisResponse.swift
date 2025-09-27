@@ -9,31 +9,44 @@ import Foundation
 
 struct PlantAnalysisResponse: Hashable {
     let treeSpecies: String
-    let description: String
+    let trunkRot: String
+    let hollow: String
+    let trunkCrack: String
+    let trunkDamage: String
+    let crownDamage: String
+    let fruitingBodies: String
+    let driedBranchesPercent: Int
+    let other: String
 }
 
 extension AnalyzeTreeResponseDTO {
     func toPlantAnalysisResponse() -> PlantAnalysisResponse {
-        // Берём первую запись из results (если их несколько)
         if let first = results.first {
+            let c = first.characteristics
             return PlantAnalysisResponse(
-                treeSpecies: first.characteristics.species,
-                description: """
-                Гнилость ствола: \(first.characteristics.trunk_rot)
-                Дупло: \(first.characteristics.hollow)
-                Трещины: \(first.characteristics.trunk_crack)
-                Повреждения ствола: \(first.characteristics.trunk_damage)
-                Повреждения кроны: \(first.characteristics.crown_damage)
-                Плодовые тела: \(first.characteristics.fruiting_bodies)
-                Сухие ветви: \(first.characteristics.dried_branches_percent)%
-                Прочее: \(first.characteristics.other_characteristics)
-                """
+                treeSpecies: c.species,
+                trunkRot: c.trunk_rot,
+                hollow: c.hollow,
+                trunkCrack: c.trunk_crack,
+                trunkDamage: c.trunk_damage,
+                crownDamage: c.crown_damage,
+                fruitingBodies: c.fruiting_bodies,
+                driedBranchesPercent: c.dried_branches_percent,
+                other: c.other_characteristics
             )
         } else {
             return PlantAnalysisResponse(
                 treeSpecies: "Неизвестно",
-                description: "Нет данных анализа"
+                trunkRot: "-",
+                hollow: "-",
+                trunkCrack: "-",
+                trunkDamage: "-",
+                crownDamage: "-",
+                fruitingBodies: "-",
+                driedBranchesPercent: 0,
+                other: "Нет данных анализа"
             )
         }
     }
 }
+

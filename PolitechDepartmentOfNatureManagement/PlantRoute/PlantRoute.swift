@@ -9,10 +9,5 @@ import SwiftUI
 
 enum PlantRoute: Hashable {
     case review(imageData: Data)
-    case results(summary: ResultSummary)
-}
-
-struct ResultSummary: Hashable {
-    let treeSpecies: String
-    let description: String
+    case results(summary: PlantAnalysisResponse)
 }

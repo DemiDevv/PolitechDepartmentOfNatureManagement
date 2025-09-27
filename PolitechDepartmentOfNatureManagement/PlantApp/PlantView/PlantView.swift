@@ -55,10 +55,7 @@ struct PlantView: View {
                 switch route {
                 case .review(let imageData):
                     PhotoReviewView(imageData: imageData) { response in
-                        let summary = ResultSummary(
-                            treeSpecies: response.treeSpecies,
-                            description: response.description
-                        )
+                        let summary = PlantAnalysisResponse(treeSpecies: response.treeSpecies, trunkRot: response.trunkRot, hollow: response.hollow, trunkCrack: response.trunkCrack, trunkDamage: response.trunkDamage, crownDamage: response.crownDamage, fruitingBodies: response.fruitingBodies, driedBranchesPercent: response.driedBranchesPercent, other: response.other)
                         path.append(PlantRoute.results(summary: summary))
                     }
 
