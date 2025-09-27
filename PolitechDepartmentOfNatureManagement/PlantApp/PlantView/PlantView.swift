@@ -9,6 +9,7 @@ import SwiftUI
 
 struct PlantView: View {
     @State private var path: NavigationPath = NavigationPath()
+    @State private var analysisSessionId = UUID()
 
     var body: some View {
         NavigationStack(path: $path) {
@@ -16,8 +17,8 @@ struct PlantView: View {
                 LinearGradient(
                     gradient: Gradient(stops: [
                         .init(color: Color("violetNature"), location: 0.0),
-                        .init(color: Color("violetNature"), location: 0.2), // держим фиолетовый до 70%
-                        .init(color: Color("purpleNature"), location: 1.0)  // розовый только в конце
+                        .init(color: Color("violetNature"), location: 0.2),
+                        .init(color: Color("purpleNature"), location: 1.0)
                     ]),
                     startPoint: .bottomTrailing,
                     endPoint: .topLeading
@@ -45,6 +46,7 @@ struct PlantView: View {
                             }
                         }
                     }
+                    .id(analysisSessionId)
                     .padding(.top, 8)
                 }
                 .padding()
@@ -53,14 +55,20 @@ struct PlantView: View {
                 switch route {
                 case .review(let imageData):
                     PhotoReviewView(imageData: imageData) { response in
-                        // по завершении анализа — пушим экран результатов
-                        let summary = ResultSummary(treeSpecies: response.treeSpecies,
-                                                    description: response.description)
+                        let summary = ResultSummary(
+                            treeSpecies: response.treeSpecies,
+                            description: response.description
+                        )
                         path.append(PlantRoute.results(summary: summary))
                     }
 
                 case .results(let summary):
-                    ResultsPlaceholderView(summary: summary)
+                    ResultsAnalyzeView(summary: summary, path: $path)
+                        .onDisappear {
+                            if path.isEmpty {
+                                analysisSessionId = UUID()
+                            }
+                        }
                 }
             }
         }
