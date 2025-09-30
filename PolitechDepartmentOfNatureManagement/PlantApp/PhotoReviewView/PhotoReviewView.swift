@@ -14,7 +14,7 @@ struct PhotoReviewView: View {
     @StateObject private var viewModel = PhotoReviewViewModel()
 
     private var image: UIImage {
-        UIImage(data: imageData) ?? UIImage()
+        (UIImage(data: imageData)?.normalized()) ?? UIImage()
     }
 
     public init(
@@ -34,7 +34,7 @@ struct PhotoReviewView: View {
                     .resizable()
                     .scaledToFit()
                     .frame(maxHeight: UIScreen.main.bounds.height * 0.75)
-                    .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+                    .cornerRadius(16)
 
                 Button {
                     viewModel.analyze(image: image)

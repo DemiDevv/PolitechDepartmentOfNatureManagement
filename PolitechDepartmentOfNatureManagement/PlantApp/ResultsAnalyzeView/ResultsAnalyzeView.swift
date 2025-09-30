@@ -12,6 +12,8 @@ struct ResultsAnalyzeView: View {
     let imageData: Data?
     @Binding var path: NavigationPath
 
+    @State private var showFullScreen = false
+
     var body: some View {
         ZStack {
             AppTheme.bg.ignoresSafeArea()
@@ -26,8 +28,15 @@ struct ResultsAnalyzeView: View {
                         Image(uiImage: uiImage)
                             .resizable()
                             .scaledToFit()
-                            .frame(maxHeight: 250)
-                            .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+                            .frame(maxWidth: .infinity, maxHeight: 400) // ограничение в 400
+                            .cornerRadius(16)
+                            .clipped()
+                            .onTapGesture {
+                                showFullScreen = true
+                            }
+                            .fullScreenCover(isPresented: $showFullScreen) {
+                                FullScreenImageView(image: uiImage)
+                            }
                     } else {
                         Color.gray.frame(height: 250)
                     }
@@ -72,7 +81,7 @@ struct ResultsAnalyzeView: View {
                 driedBranchesPercent: 5,
                 other: "Листья ярко-зелёные, признаков болезни нет."
             ),
-            imageData: UIImage(systemName: "leaf")?.pngData(),
+            imageData: UIImage(named: "BackgroundNature")?.jpegData(compressionQuality: 0.9),
             path: $path
         )
     }

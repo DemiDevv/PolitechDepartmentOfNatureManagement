@@ -11,7 +11,7 @@ import SwiftUI
 struct PolitechDepartmentOfNatureManagementApp: App {
     var body: some Scene {
         WindowGroup {
-            PlantView()
+            RootView()
                 .appBackground()
         }
     }
