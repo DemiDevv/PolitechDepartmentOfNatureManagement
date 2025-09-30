@@ -33,15 +33,11 @@
 
 ## 📷 Демо / Скриншоты
 
-| Экран              | Скриншот |
-|--------------------|----------|
-| Splash             | <img src="docs/screenshots/splash.png" width="250"/> |
-| Главный экран      | <img src="docs/screenshots/main.png" width="250"/> |
-| Выбор фото         | <img src="docs/screenshots/select.png" width="250"/> |
-| Анализ фото        | <img src="docs/screenshots/analyze.png" width="250"/> |
-| Результаты анализа | <img src="docs/screenshots/results.png" width="250"/> |
-| Фото на весь экран | <img src="docs/screenshots/fullanalyzephoto.png" width="250"/> |
+## 📷 Скриншоты
 
+| Splash | Главный | Выбор фото | Анализ фото | Результаты | Фото на весь экран |
+|--------|---------|------------|-------------|------------|--------------------|
+| <img src="docs/screenshots/splash.png" width="200"/> | <img src="docs/screenshots/main.png" width="200"/> | <img src="docs/screenshots/select.png" width="200"/> | <img src="docs/screenshots/analyze.png" width="200"/> | <img src="docs/screenshots/results.png" width="200"/> | <img src="docs/screenshots/fullanalyzephoto.png" width="200"/> |
 
 ---
 
