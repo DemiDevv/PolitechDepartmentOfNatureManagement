@@ -31,21 +31,17 @@
 
 ---
 
-## 📷 Демо / Скриншоты
+## 📷 Скриншоты
 
-Здесь добавь скриншоты экранов. Рекомендуется хранить их в папке.
-
-| Экран             | Скриншот                         |
-| ----------------- | -------------------------------- |
-| Главное меню      | ![](docs/screenshots/main.png)   |
-| Выбор фото        | ![](docs/screenshots/select.png) |
-| Результат анализа | ![](docs/screenshots/result.png) |
+| Splash | Главный | Выбор фото | Анализ фото | Результаты | Фото на весь экран |
+|--------|---------|------------|-------------|------------|--------------------|
+| <img src="docs/screenshots/splash.png" width="200"/> | <img src="docs/screenshots/main.png" width="200"/> | <img src="docs/screenshots/select.png" width="200"/> | <img src="docs/screenshots/analyze.png" width="200"/> | <img src="docs/screenshots/results.png" width="200"/> | <img src="docs/screenshots/fullanalyzephoto.png" width="200"/> |
 
 ---
 
 ## 🎥 Видео работы
 
-[![Демо видео](docs/screenshots/video_preview.png)](https://youtu.be/xxx)
+📽 [Скачать/посмотреть демо](docs/video/demo.mp4)
 
 ---
 
