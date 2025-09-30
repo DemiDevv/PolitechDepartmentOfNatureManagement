@@ -10,6 +10,7 @@ import SwiftUI
 struct PlantView: View {
     @State private var path: NavigationPath = NavigationPath()
     @State private var analysisSessionId = UUID()
+    @State private var lastImageData: Data?
 
     var body: some View {
         NavigationStack(path: $path) {
@@ -37,11 +38,13 @@ struct PlantView: View {
                     VStack(spacing: 12) {
                         CameraButton { img in
                             if let data = img.jpegData(compressionQuality: 0.9) {
+                                lastImageData = data
                                 path.append(PlantRoute.review(imageData: data))
                             }
                         }
                         GalleryPickerButton { img in
                             if let data = img.jpegData(compressionQuality: 0.9) {
+                                lastImageData = data
                                 path.append(PlantRoute.review(imageData: data))
                             }
                         }
@@ -55,17 +58,37 @@ struct PlantView: View {
                 switch route {
                 case .review(let imageData):
                     PhotoReviewView(imageData: imageData) { response in
-                        let summary = PlantAnalysisResponse(treeSpecies: response.treeSpecies, trunkRot: response.trunkRot, hollow: response.hollow, trunkCrack: response.trunkCrack, trunkDamage: response.trunkDamage, crownDamage: response.crownDamage, fruitingBodies: response.fruitingBodies, driedBranchesPercent: response.driedBranchesPercent, other: response.other)
-                        path.append(PlantRoute.results(summary: summary))
+                        if let serverImage = response.imageData {
+                            lastImageData = serverImage
+                        } else {
+                            lastImageData = imageData
+                        }
+
+                        let metadata = PlantAnalysisResponseMetadata(
+                            treeSpecies: response.treeSpecies,
+                            trunkRot: response.trunkRot,
+                            hollow: response.hollow,
+                            trunkCrack: response.trunkCrack,
+                            trunkDamage: response.trunkDamage,
+                            crownDamage: response.crownDamage,
+                            fruitingBodies: response.fruitingBodies,
+                            driedBranchesPercent: response.driedBranchesPercent,
+                            other: response.other
+                        )
+                        path.append(PlantRoute.results(summary: metadata, imageData: response.imageData))
                     }
 
-                case .results(let summary):
-                    ResultsAnalyzeView(summary: summary, path: $path)
-                        .onDisappear {
-                            if path.isEmpty {
-                                analysisSessionId = UUID()
-                            }
+                case .results(let summary, let imageData):
+                    ResultsAnalyzeView(
+                        summary: summary,
+                        imageData: imageData,
+                        path: $path
+                    )
+                    .onDisappear {
+                        if path.isEmpty {
+                            analysisSessionId = UUID()
                         }
+                    }
                 }
             }
         }

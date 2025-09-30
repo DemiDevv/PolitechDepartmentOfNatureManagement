@@ -32,12 +32,21 @@ final class PhotoReviewViewModel: ObservableObject {
                 guard let data = image.jpegData(compressionQuality: 0.7) else {
                     throw NetworkClientError.incorrectRequest("Невозможно преобразовать фото")
                 }
+
                 let response = try await service.analyzePlant(imageData: data)
+
+                if let imageData = response.imageData {
+                    print("✅ Пришло изображение, размер в байтах:", imageData.count)
+                } else {
+                    print("⚠️ Изображение не пришло или Base64 пустой")
+                }
                 try Task.checkCancellation()
+
                 self.result = response
                 self.state = .success
+
             } catch is CancellationError {
-                // ничего, пользователь закрыл экран
+                // Пользователь закрыл экран — ничего не делаем
             } catch {
                 self.state = .failure
                 self.errorMessage = error.localizedDescription
@@ -51,4 +60,3 @@ final class PhotoReviewViewModel: ObservableObject {
         analyzeTask?.cancel()
     }
 }
-

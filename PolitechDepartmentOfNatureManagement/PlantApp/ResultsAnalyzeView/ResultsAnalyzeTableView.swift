@@ -8,10 +8,10 @@
 import SwiftUI
 
 struct ResultsAnalyzeTableView: View {
-    let summary: PlantAnalysisResponse
+    let summary: PlantAnalysisResponseMetadata
 
     var body: some View {
-        VStack(spacing: 20) {
+        VStack(spacing: 10) {
             // Секция 1 — Тип дерева
             sectionCard {
                 HStack {
@@ -82,7 +82,7 @@ struct ResultsAnalyzeTableView: View {
 
 #Preview {
     ResultsAnalyzeTableView(
-        summary: PlantAnalysisResponse(
+        summary: PlantAnalysisResponseMetadata(
             treeSpecies: "Дуб",
             trunkRot: "Нет",
             hollow: "Нет",

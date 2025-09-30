@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct ResultsAnalyzeView: View {
-    let summary: PlantAnalysisResponse
+    let summary: PlantAnalysisResponseMetadata
+    let imageData: Data?
     @Binding var path: NavigationPath
 
     var body: some View {
@@ -20,6 +21,16 @@ struct ResultsAnalyzeView: View {
                     Text("Результаты анализа")
                         .font(.title2).bold()
                         .foregroundStyle(.white)
+
+                    if let data = imageData, let uiImage = UIImage(data: data) {
+                        Image(uiImage: uiImage)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(maxHeight: 250)
+                            .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+                    } else {
+                        Color.gray.frame(height: 250)
+                    }
 
                     ResultsAnalyzeTableView(summary: summary)
 
@@ -50,7 +61,7 @@ struct ResultsAnalyzeView: View {
 
     return NavigationStack(path: $path) {
         ResultsAnalyzeView(
-            summary: PlantAnalysisResponse(
+            summary: PlantAnalysisResponseMetadata(
                 treeSpecies: "Дуб",
                 trunkRot: "Нет",
                 hollow: "Нет",
@@ -61,6 +72,7 @@ struct ResultsAnalyzeView: View {
                 driedBranchesPercent: 5,
                 other: "Листья ярко-зелёные, признаков болезни нет."
             ),
+            imageData: UIImage(systemName: "leaf")?.pngData(),
             path: $path
         )
     }

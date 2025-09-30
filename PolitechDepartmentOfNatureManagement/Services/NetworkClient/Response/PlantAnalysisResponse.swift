@@ -7,7 +7,22 @@
 
 import Foundation
 
+// Полная модель с картинкой
 struct PlantAnalysisResponse: Hashable {
+    let treeSpecies: String
+    let trunkRot: String
+    let hollow: String
+    let trunkCrack: String
+    let trunkDamage: String
+    let crownDamage: String
+    let fruitingBodies: String
+    let driedBranchesPercent: Int
+    let other: String
+    let imageData: Data?
+}
+
+// Легковесная модель без картинки для NavigationPath
+struct PlantAnalysisResponseMetadata: Hashable {
     let treeSpecies: String
     let trunkRot: String
     let hollow: String
@@ -21,32 +36,34 @@ struct PlantAnalysisResponse: Hashable {
 
 extension AnalyzeTreeResponseDTO {
     func toPlantAnalysisResponse() -> PlantAnalysisResponse {
-        if let first = results.first {
-            let c = first.characteristics
-            return PlantAnalysisResponse(
-                treeSpecies: c.species,
-                trunkRot: c.trunk_rot,
-                hollow: c.hollow,
-                trunkCrack: c.trunk_crack,
-                trunkDamage: c.trunk_damage,
-                crownDamage: c.crown_damage,
-                fruitingBodies: c.fruiting_bodies,
-                driedBranchesPercent: c.dried_branches_percent,
-                other: c.other_characteristics
-            )
-        } else {
+        guard let firstResult = results.first else {
             return PlantAnalysisResponse(
                 treeSpecies: "Неизвестно",
-                trunkRot: "-",
-                hollow: "-",
-                trunkCrack: "-",
-                trunkDamage: "-",
-                crownDamage: "-",
-                fruitingBodies: "-",
+                trunkRot: "—",
+                hollow: "—",
+                trunkCrack: "—",
+                trunkDamage: "—",
+                crownDamage: "—",
+                fruitingBodies: "—",
                 driedBranchesPercent: 0,
-                other: "Нет данных анализа"
+                other: "Нет данных анализа",
+                imageData: nil
             )
         }
+
+        let decodedImageData = Data(base64Encoded: processed_image, options: .ignoreUnknownCharacters)
+
+        return PlantAnalysisResponse(
+            treeSpecies: firstResult.characteristics.species,
+            trunkRot: firstResult.characteristics.trunk_rot,
+            hollow: firstResult.characteristics.hollow,
+            trunkCrack: firstResult.characteristics.trunk_crack,
+            trunkDamage: firstResult.characteristics.trunk_damage,
+            crownDamage: firstResult.characteristics.crown_damage,
+            fruitingBodies: firstResult.characteristics.fruiting_bodies,
+            driedBranchesPercent: firstResult.characteristics.dried_branches_percent,
+            other: firstResult.characteristics.other_characteristics,
+            imageData: decodedImageData
+        )
     }
 }
-

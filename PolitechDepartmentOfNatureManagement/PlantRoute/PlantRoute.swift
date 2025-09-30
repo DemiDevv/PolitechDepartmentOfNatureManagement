@@ -9,5 +9,5 @@ import SwiftUI
 
 enum PlantRoute: Hashable {
     case review(imageData: Data)
-    case results(summary: PlantAnalysisResponse)
+    case results(summary: PlantAnalysisResponseMetadata, imageData: Data?)
 }
