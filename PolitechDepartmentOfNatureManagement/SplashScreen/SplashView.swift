@@ -8,8 +8,11 @@
 import SwiftUI
 
 struct SplashView: View {
-    @State private var scale = 0.8
-    @State private var opacity = 0.5
+    @State private var topScale = 0.8
+    @State private var topOpacity = 0.5
+
+    @State private var bottomScale = 0.8
+    @State private var bottomOpacity = 0.5
 
     var body: some View {
         ZStack {
@@ -18,40 +21,53 @@ struct SplashView: View {
                 .resizable()
                 .aspectRatio(contentMode: .fill)
                 .ignoresSafeArea()
-                .blur(radius: 8)
 
+            // Верхний логотип
+            VStack {
+                Image("LdtImage")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(height: 80)
+                    .scaleEffect(topScale)
+                    .opacity(topOpacity)
+                    .onAppear {
+                        withAnimation(.easeIn(duration: 1.2)) {
+                            topScale = 1.0
+                            topOpacity = 1.0
+                        }
+                    }
+                Spacer()
+            }
+
+            // Нижние логотипы
             VStack {
                 Spacer()
-
-                // Логотипы организаций
-                VStack(spacing: 20) {
-                    Image("LdtImage")
+                HStack(spacing: 5) {
+                    Image("DEIDCMLogoImage")
                         .resizable()
                         .scaledToFit()
-                        .frame(height: 80)
+                        .frame(height: 30)
 
                     Image("MikLogoImage")
                         .resizable()
                         .scaledToFit()
-                        .frame(height: 60)
+                        .frame(height: 30)
 
                     Image("MmpLogoImage")
                         .resizable()
                         .scaledToFit()
-                        .frame(height: 100)
+                        .frame(height: 30)
                 }
-                .scaleEffect(scale)
-                .opacity(opacity)
+                .scaleEffect(bottomScale)
+                .opacity(bottomOpacity)
                 .onAppear {
-                    withAnimation(.easeIn(duration: 1.2)) {
-                        scale = 1.0
-                        opacity = 1.0
+                    withAnimation(.easeIn(duration: 1.2).delay(0.3)) {
+                        bottomScale = 1.0
+                        bottomOpacity = 1.0
                     }
                 }
-
-                Spacer()
+                .padding(.bottom, 40)
             }
-            .padding(.horizontal, 20)
         }
     }
 }
