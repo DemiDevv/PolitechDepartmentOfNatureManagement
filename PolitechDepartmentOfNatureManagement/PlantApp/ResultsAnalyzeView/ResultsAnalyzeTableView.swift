@@ -40,21 +40,6 @@ struct ResultsAnalyzeTableView: View {
                     infoRow("Сухие ветви", "\(summary.driedBranchesPercent)%")
                 }
             }
-
-            // Секция 3 — Прочее
-            if !summary.other.isEmpty {
-                sectionCard {
-                    VStack(alignment: .leading, spacing: 8) {
-                        Text("Прочее")
-                            .font(.headline)
-                            .foregroundStyle(.white)
-                        Text(summary.other)
-                            .foregroundStyle(.white.opacity(0.9))
-                            .font(.subheadline)
-                    }
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                }
-            }
         }
     }
 
